@@ -1,10 +1,10 @@
 # Trabalho Girias Colaborativas
 ## Alunos
-|Aluno | Matrícula |
+|Alunos | Matrícula |
 | -- | -- |
-| Arthur Schiller  |   |
-| Julia Dominguez Curto |  |
-| Maria Claudia  |   |
+| Arthur Schiller  | 202402851756  |
+| Julia Dominguez Curto | 202402192477 |
+| Maria Claudia Freitas | 202307539783  |
 ## Acesso a main
 - SistemaGirias>src>Main.java
 
