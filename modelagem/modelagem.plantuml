@@ -1,0 +1,147 @@
+@startuml
+!define interface_color #ADD1B2
+!define abstract_color #FFD700
+!define concrete_color #LightBlue
+
+skinparam class {
+    BackgroundColor concrete_color
+}
+skinparam abstract {
+    BackgroundColor abstract_color
+}
+skinparam interface {
+    BackgroundColor interface_color
+}
+
+abstract class EntidadeBase {
+    # id: int
+    # dataCriacao: LocalDateTime
+    + {abstract} validar(): boolean
+    + {abstract} getId(): int
+    + getDataCriacao(): LocalDateTime
+    + setId(id: int): void
+    + setDataCriacao(data: LocalDateTime): void
+}
+
+interface Avaliavel {
+    + adicionarVoto(voto: Voto): void
+    + getPontuacaoVotos(): int
+}
+
+class Usuario extends EntidadeBase {
+    - nome: String
+    - email: String
+    - senha: String
+    - reputacao: int
+    - giriasPropostas: List<Giria>
+    - explicacoesPropostas: List<Explicacao>
+    - votosRealizados: List<Voto>
+    + getId(): int
+    + validar(): boolean
+    + getReputacao(): int
+    + incrementarReputacao(): void
+    + decrementarReputacao(): void
+    + getNome(): String
+    + getEmail(): String
+    + getSenha(): String
+    + setReputacao(reputacao: int): void
+    + adicionarGiriaProposta(giria: Giria): void
+
+    
+}
+
+class Administrador extends Usuario {
+
+}
+
+class Giria extends EntidadeBase implements Avaliavel {
+    - termo: String
+    - dataCadastro: LocalDate
+    - aprovada: boolean
+    - usuarioPropositor: Usuario
+    - votos: List<Voto>
+    - explicacoes: List<Explicacao>
+    - categorias: Set<String>
+    - regioes: Set<String>
+    + adicionarVoto(voto: Voto): void
+    + getPontuacaoVotos(): int
+    + adicionarExplicacao(explicacao: Explicacao): void
+    + adicionarCategoria(categoria: String): void
+    + adicionarRegiao(regiao: String): void
+    + validar(): boolean
+    + getId(): int
+    + getTermo(): String
+    + setTermo(termo: String): void
+    + getDataCadastro(): LocalDate
+    + isaprovada(): boolean
+    + setAprovada(aprovada: boolean): void
+    + desaprovar(): void
+    + aprovar(): void
+}
+
+class Explicacao extends EntidadeBase implements Avaliavel {
+    - definicao: String
+    - exemploUso: String
+    - aprovada: boolean
+    - dataProposta: LocalDate
+    - usuarioPropositor: Usuario
+    - giriaAssociada: Giria
+    - votos: List<Voto>
+    + adicionarVoto(voto: Voto): void
+    + getPontuacaoVotos(): int
+    + validar(): boolean
+    + getId(): int
+    + getDefinicao(): String
+    + getExemploUso(): String
+    + isAprovada(): boolean
+    + setAprovada(aprovada: boolean): void
+    + desaprovar(): void
+    + aprovar(): void
+    + getDataProposta(): LocalDate
+    + setDataProposta(data: LocalDate): void
+    + getUsuarioPropositor(): Usuario
+    + getGiriaAssociada(): Giria
+    + setGiriaAssociada(giria: Giria): void
+}
+
+class Voto extends EntidadeBase {
+    - tipo: EnumVoto // POSITIVO, NEGATIVO
+    - dataVoto: LocalDateTime
+    - usuarioVotante: Usuario
+    - objetoAvaliadoId: int // ID da Gíria ou Explicação votada
+    - tipoObjetoAvaliado: String // "GIRIA" ou "EXPLICACAO"
+    + isPositivo(): boolean
+    + validar(): boolean
+    + getId(): int
+    + getTipo(): EnumVoto
+    + getDataVoto(): LocalDateTime
+    + setDataVoto(data: LocalDateTime): void
+    + getUsuarioVotante(): Usuario
+    + getObjetoAvaliadoId(): int
+    + getTipoObjetoAvaliado(): String
+}
+
+enum EnumVoto {
+    POSITIVO
+    NEGATIVO
+}
+
+EntidadeBase <|-- Usuario
+EntidadeBase <|-- Giria
+EntidadeBase <|-- Explicacao
+EntidadeBase <|-- Voto
+
+Avaliavel <|.. Giria
+Avaliavel <|.. Explicacao
+
+Usuario <|-- Administrador
+
+Usuario "1" --> "N" Giria : propõe >
+Usuario "1" --> "N" Explicacao : propõe >
+Usuario "1" --> "N" Voto : realiza >
+
+Giria "1" --> "N" Explicacao : possui >
+Giria "1" --> "N" Voto : recebe >
+Explicacao "1" --> "N" Voto : recebe >
+
+@enduml

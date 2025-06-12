@@ -1,0 +1,97 @@
+@startuml ModelagemER_SistemaGirias
+
+!define primary_key(x) <u>x</u>
+!define foreign_key(x) <i>x</i>
+!define enum(x) <color:MediumPurple>x</color>
+
+skinparam linetype ortho
+skinparam shadowing false
+skinparam handwritten false
+skinparam defaultFontName Arial
+skinparam monochrome false
+skinparam packageStyle rectangle
+skinparam stereotypeCBackgroundColor #A9DCDF
+skinparam classBorderColor Black
+skinparam classBackgroundColor LightCyan
+
+' Entidades
+entity "Usuario" as usuario {
+  primary_key(id) : INT AUTO_INCREMENT
+  nome : VARCHAR(255) NOT NULL
+  email : VARCHAR(255) NOT NULL UNIQUE
+  senha : VARCHAR(255) NOT NULL
+  reputacao : INT DEFAULT 0
+  data_criacao : TIMESTAMP
+}
+
+entity "Giria" as giria {
+  primary_key(id) : INT AUTO_INCREMENT
+  termo : VARCHAR(255) NOT NULL UNIQUE
+  data_cadastro : TIMESTAMP NOT NULL
+  aprovada : BOOLEAN DEFAULT FALSE
+  foreign_key(usuario_propositor_id) : INT
+  data_criacao : TIMESTAMP
+}
+
+entity "Explicacao" as explicacao {
+  primary_key(id) : INT AUTO_INCREMENT
+  definicao : TEXT NOT NULL
+  exemplo_uso : TEXT
+  aprovada : BOOLEAN DEFAULT FALSE
+  data_proposta : DATE NOT NULL
+  foreign_key(usuario_propositor_id) : INT
+  foreign_key(giria_associada_id) : INT
+  data_criacao : TIMESTAMP
+}
+
+entity "Voto" as voto {
+  primary_key(id) : INT AUTO_INCREMENT
+  tipo : ENUM('POSITIVO', 'NEGATIVO') NOT NULL
+  data_voto : TIMESTAMP
+  foreign_key(usuario_votante_id) : INT
+  foreign_key(objeto_avaliado_id) : INT
+  tipo_objeto_avaliado : VARCHAR(50) NOT NULL
+  data_criacao : TIMESTAMP
+}
+
+entity "Categoria" as categoria {
+  primary_key(id) : INT AUTO_INCREMENT
+  nome : VARCHAR(100) NOT NULL UNIQUE
+}
+
+entity "Regiao" as regiao {
+  primary_key(id) : INT AUTO_INCREMENT
+  nome : VARCHAR(100) NOT NULL UNIQUE
+}
+
+entity "Giria_Categoria" as giria_categoria {
+  primary_key(giria_id) : INT
+  primary_key(categoria_id) : INT
+}
+
+entity "Giria_Regiao" as giria_regiao {
+  primary_key(giria_id) : INT
+  primary_key(regiao_id) : INT
+}
+
+' Relacionamentos
+usuario ||--o{ giria : "propõe"
+usuario ||--o{ explicacao : "propõe"
+usuario ||--o{ voto : "realiza"
+
+giria ||--o{ explicacao : "possui"
+giria ||--o{ giria_categoria : "categorizada"
+giria ||--o{ giria_regiao : "associada"
+
+categoria ||--o{ giria_categoria : "classifica"
+regiao ||--o{ giria_regiao : "identifica"
+
+note bottom of voto
+  O campo "tipo_objeto_avaliado" pode ser:
+  - "GIRIA"
+  - "EXPLICACAO"
+  indicando qual tabela o objeto_avaliado_id referencia.
+  A integridade referencial é tratada na aplicação.
+end note
+
+@enduml
