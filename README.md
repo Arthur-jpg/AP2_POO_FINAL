@@ -1,4 +1,10 @@
 # Trabalho Girias Colaborativas
+## Alunos
+|Matrícula | Aluno |
+| -- | -- |
+| Arthur Schiller  |   |
+| Julia Dominguez Curto |  |
+| Maria Claudia  |   |
 ## Acesso a main
 - SistemaGirias>src>Main.java
 
