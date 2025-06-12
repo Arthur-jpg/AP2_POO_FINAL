@@ -10,14 +10,12 @@ public class Usuario extends EntidadeBase {
     private int reputacao;
     private List<Giria> giriasPropostas;
     private List<Explicacao> explicacoesPropostas;
-    private List<Voto> votosRealizados;
     
     public Usuario() {
         super();
         this.reputacao = 0;
         this.giriasPropostas = new ArrayList<>();
         this.explicacoesPropostas = new ArrayList<>();
-        this.votosRealizados = new ArrayList<>();
     }
     
     public Usuario(int id, String nome, String email, String senha) {
@@ -28,7 +26,6 @@ public class Usuario extends EntidadeBase {
         this.reputacao = 0;
         this.giriasPropostas = new ArrayList<>();
         this.explicacoesPropostas = new ArrayList<>();
-        this.votosRealizados = new ArrayList<>();
     }
 
     public Usuario(String nome, String email, String senha) {
@@ -39,7 +36,6 @@ public class Usuario extends EntidadeBase {
         this.reputacao = 0;
         this.giriasPropostas = new ArrayList<>();
         this.explicacoesPropostas = new ArrayList<>();
-        this.votosRealizados = new ArrayList<>();
     }
 
     // usado somente para adm
@@ -51,7 +47,6 @@ public class Usuario extends EntidadeBase {
         this.reputacao = reputacao;
         this.giriasPropostas = new ArrayList<>();
         this.explicacoesPropostas = new ArrayList<>();
-        this.votosRealizados = new ArrayList<>();
     }
 
 
