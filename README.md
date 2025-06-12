@@ -1,6 +1,6 @@
 # Trabalho Girias Colaborativas
 ## Alunos
-|Matrícula | Aluno |
+|Aluno | Matrícula |
 | -- | -- |
 | Arthur Schiller  |   |
 | Julia Dominguez Curto |  |
